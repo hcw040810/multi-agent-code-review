@@ -1,0 +1,98 @@
+{
+  "patterns": [
+    {
+      "id": "PAT-001",
+      "name": "Django Raw SQL Query",
+      "pattern": "Model.objects.raw(",
+      "severity": "medium",
+      "category": "security",
+      "description": "Raw SQL queries should be parameterized",
+      "fix_template": "Use Model.objects.filter() or parameterized .raw() instead"
+    },
+    {
+      "id": "PAT-002",
+      "name": "Flask Debug Mode in Production",
+      "pattern": "app.run(debug=True)",
+      "severity": "critical",
+      "category": "security",
+      "description": "Debug mode enabled in likely production code",
+      "fix_template": "Use debug=os.environ.get('DEBUG', 'False').lower() == 'true'"
+    },
+    {
+      "id": "PAT-003",
+      "name": "Missing CSRF Protection",
+      "pattern": "@app.route",
+      "severity": "high",
+      "category": "security",
+      "description": "Flask routes should have CSRF protection",
+      "fix_template": "Add @csrf.exempt or implement CSRF protection with Flask-WTF"
+    },
+    {
+      "id": "PAT-004",
+      "name": "Synchronous HTTP Call in Async",
+      "pattern": "requests.get(",
+      "severity": "medium",
+      "category": "performance",
+      "description": "Synchronous HTTP in async context",
+      "fix_template": "Use httpx.AsyncClient or aiohttp for async HTTP calls"
+    },
+    {
+      "id": "PAT-005",
+      "name": "Large File Read in Memory",
+      "pattern": ".read()",
+      "severity": "low",
+      "category": "performance",
+      "description": "Reading entire file into memory may cause issues with large files",
+      "fix_template": "Use chunked reading or iterate over file object"
+    },
+    {
+      "id": "PAT-006",
+      "name": "Missing Timeout on HTTP Request",
+      "pattern": "requests.get(.*)(?!.*timeout)",
+      "severity": "medium",
+      "category": "performance",
+      "description": "HTTP request without timeout can hang indefinitely",
+      "fix_template": "Always specify timeout parameter: requests.get(url, timeout=30)"
+    },
+    {
+      "id": "PAT-007",
+      "name": "Bare Exception Catch",
+      "pattern": "except:",
+      "severity": "high",
+      "category": "standards",
+      "description": "Catching all exceptions without specifying type",
+      "fix_template": "Catch specific exception types: except ValueError as e:"
+    },
+    {
+      "id": "PAT-008",
+      "name": "Print Statement Instead of Logging",
+      "pattern": "print(",
+      "severity": "low",
+      "category": "standards",
+      "description": "Using print() instead of proper logging",
+      "fix_template": "Use logger.info() or logger.debug() from the logging module"
+    }
+  ],
+  "language_specific": {
+    "python": {
+      "security_tools": ["bandit", "safety"],
+      "linting_tools": ["ruff", "mypy", "pylint"],
+      "test_frameworks": ["pytest", "unittest"]
+    },
+    "javascript": {
+      "security_tools": ["npm audit", "eslint-plugin-security"],
+      "linting_tools": ["eslint", "prettier"],
+      "test_frameworks": ["jest", "vitest", "mocha"]
+    },
+    "java": {
+      "security_tools": ["spotbugs", "dependency-check"],
+      "linting_tools": ["checkstyle", "pmd"],
+      "test_frameworks": ["junit", "mockito"]
+    },
+    "go": {
+      "security_tools": ["gosec"],
+      "linting_tools": ["golangci-lint"],
+      "test_frameworks": ["testing", "testify"]
+    }
+  }
+}
