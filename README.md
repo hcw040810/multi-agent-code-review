@@ -146,6 +146,4 @@ tiktoken>=0.5.0      # Token 计数
 python-dotenv>=1.0.0 # 环境变量
 ```
 
-## License
 
-MIT
